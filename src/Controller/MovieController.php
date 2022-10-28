@@ -1,5 +1,5 @@
 <?php
-namespace src\Controller;
+namespace Src\Controller;
 
 use Src\TableGateways\MovieGateway;
 
@@ -28,7 +28,7 @@ class MovieController {
                     $response = $this->getUser($this->userId);
                 } else {
                     // $response = $this->getAllUsers();
-                    $response = "the api is working your getting the movies list";
+                    $response = "api works";
                 };
                 break;
             case 'POST':
