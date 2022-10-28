@@ -1,6 +1,6 @@
 <?php
 require "../bootstrap.php";
-use Src\Controller\MovieController;
+use src\Controller\MovieController;
 
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
@@ -11,9 +11,9 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $uri = explode( '/', $uri );
 
-// all of our endpoints start with /person
+// all of our endpoints start with /movie
 // everything else results in a 404 Not Found
-if ($uri[1] !== 'person') {
+if ($uri[1] !== 'movie') {
     header("HTTP/1.1 404 Not Found");
     exit();
 }

@@ -1,5 +1,5 @@
 <?php
-namespace Src\TableGateways;
+namespace src\TableGateways;
 
 class MovieGateway {
 
@@ -12,12 +12,7 @@ class MovieGateway {
 
     public function findAll()
     {
-        $statement = "
-            SELECT 
-                id, firstname, lastname, firstparent_id, secondparent_id
-            FROM
-                movie;
-        ";
+        $statement = "SELECT  id, firstname, lastname, firstparent_id, secondparent_id FROM movie;";
 
         try {
             $statement = $this->db->query($statement);

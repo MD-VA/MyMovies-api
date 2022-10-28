@@ -1,6 +1,5 @@
 <?php
-namespace Src\System;
-use Src\System\PDO;
+namespace src\System;
 
 class DatabaseConnector {
 
@@ -14,11 +13,11 @@ class DatabaseConnector {
         // $user = getenv('DB_USERNAME');
         // $pass = getenv('DB_PASSWORD');  
         
-        $host ='localhost:8889';
-        $port = 8889;
+        $host ='localhost:3306';
+        $port = 3306;
         $db   = 'mymovies';
-        $user = 'test';
-        $pass = 'tester';
+        $user = 'tester';
+        $pass = 'root';
         // $conn = $pdo->open();
 
 
@@ -28,9 +27,9 @@ class DatabaseConnector {
             //     $user,
             //     $pass
             // );
-            $conn = new \PDO("mysql:host=$host;dbname=$db", $user, $pass);
+            $this->dbConnection = new \PDO("mysql:host=$host;dbname=$db", $user, $pass);
             // set the PDO error mode to exception
-            $conn->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+            // $this->dbConnection->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
             echo "Connected successfully";
             
         } catch (\PDOException $e) {

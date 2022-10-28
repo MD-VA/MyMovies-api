@@ -1,11 +1,12 @@
 <?php
 require 'vendor/autoload.php';
+use Dotenv\Dotenv;
+
 use src\System\DatabaseConnector;
 
-// use Dotenv\Dotenv;
 
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
-$dotenv->load();
+// $dotenv = new Dotenv(__DIR__);
+// $dotenv->load();
 
 // test code, should output:
 // api://default

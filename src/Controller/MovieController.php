@@ -1,7 +1,7 @@
 <?php
-namespace Src\Controller;
+namespace src\Controller;
 
-use Src\TableGateways\MovieGateway;
+use src\TableGateways\MovieGateway;
 
 class MovieController {
 
@@ -17,7 +17,7 @@ class MovieController {
         $this->requestMethod = $requestMethod;
         $this->userId = $userId;
 
-        $this->movieGateway = new MovieGateway($db);
+        $this->movieGateway = new MovieGateway($this->db);
     }
 
     public function processRequest()
@@ -25,7 +25,8 @@ class MovieController {
         switch ($this->requestMethod) {
             case 'GET':
                 if ($this->userId) {
-                    $response = $this->getUser($this->userId);
+                    // $response = $this->getUser($this->userId);
+                    $response = "api works";
                 } else {
                     // $response = $this->getAllUsers();
                     $response = "api works";
@@ -44,9 +45,9 @@ class MovieController {
                 $response = $this->notFoundResponse();
                 break;
         }
-        header($response['status_code_header']);
-        if ($response['body']) {
-            echo $response['body'];
+        // header($response['status_code_header']);
+        if ($response) {
+            echo $response;
         }
     }
 
