@@ -1,5 +1,5 @@
 <?php
-namespace Src\TableGateways;
+namespace src\TableGateways;
 
 class MovieGateway {
 

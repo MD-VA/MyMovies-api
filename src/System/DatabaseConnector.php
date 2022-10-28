@@ -1,5 +1,5 @@
 <?php
-namespace Src\System;
+namespace src\System;
 
 class DatabaseConnector {
 
@@ -30,4 +30,3 @@ class DatabaseConnector {
     }
 }
 
-?>
