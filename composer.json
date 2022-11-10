@@ -1,6 +1,7 @@
 {
     "require": {
-        "vlucas/phpdotenv": "^5.5"
+        "vlucas/phpdotenv": "^5.5",
+        "nategood/httpful": "^0.3.2"
     },
     "autoload": {
         "psr-4": {
