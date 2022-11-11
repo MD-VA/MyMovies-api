@@ -63,10 +63,9 @@ class MovieController {
 
     // Routes for the movie API
     private function apiRoutes(){
-        if ($this->requestMethod) {
+        switch ($this->requestMethod) {
+            case 'GET':
                 if ($this->userId) {
-                    // $response = $this->getUser($this->userId);
-                    // $response = "get from the api";
                     $get_data = $this->callAPI('GET', "https://api.themoviedb.org/3/movie/popular?api_key=" .$this->apikey. "&language=en-US&page=1", false);
                     $response = json_decode($get_data, true);
                     $errors = $response['response']['errors'];
@@ -83,7 +82,19 @@ class MovieController {
                     echo json_encode($data);
                     // $response = "get data from the api";
                 };
-           
+                break;
+            case 'POST':
+                $response = $this->createUserFromRequest();
+                break;
+            case 'PUT':
+                $response = $this->updateUserFromRequest($this->userId);
+                break;
+            case 'DELETE':
+                $response = $this->deleteUser($this->userId);
+                break;
+            default:
+                $response = $this->notFoundResponse();
+                break;
         }
     
          header($response['status_code_header']);
