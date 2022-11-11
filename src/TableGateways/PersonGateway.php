@@ -1,7 +1,7 @@
 <?php
-namespace src\TableGateways;
+namespace Src\TableGateways;
 
-class MovieGateway {
+class PersonGateway {
 
     private $db = null;
 
@@ -12,7 +12,12 @@ class MovieGateway {
 
     public function findAll()
     {
-        $statement = "SELECT  id, firstname, lastname, firstparent_id, secondparent_id FROM movie;";
+        $statement = "
+            SELECT 
+                id, firstname, lastname, phonenumber, city
+            FROM
+                user;
+        ";
 
         try {
             $statement = $this->db->query($statement);
@@ -27,9 +32,9 @@ class MovieGateway {
     {
         $statement = "
             SELECT 
-                id, firstname, lastname, firstparent_id, secondparent_id
+                id, firstname, lastname, city, phonenumber
             FROM
-                movie
+                user
             WHERE id = ?;
         ";
 
@@ -46,10 +51,10 @@ class MovieGateway {
     public function insert(Array $input)
     {
         $statement = "
-            INSERT INTO movie 
-                (firstname, lastname, firstparent_id, secondparent_id)
+            INSERT INTO user 
+                (firstname, lastname, city, phonenumber)
             VALUES
-                (:firstname, :lastname, :firstparent_id, :secondparent_id);
+                (:firstname, :lastname, :city, :phonenumber);
         ";
 
         try {
@@ -57,8 +62,8 @@ class MovieGateway {
             $statement->execute(array(
                 'firstname' => $input['firstname'],
                 'lastname'  => $input['lastname'],
-                'firstparent_id' => $input['firstparent_id'] ?? null,
-                'secondparent_id' => $input['secondparent_id'] ?? null,
+                'city' => $input['city'] ?? null,
+                'phonenumber' => $input['phonenumber'] ?? null,
             ));
             return $statement->rowCount();
         } catch (\PDOException $e) {
@@ -69,12 +74,12 @@ class MovieGateway {
     public function update($id, Array $input)
     {
         $statement = "
-            UPDATE movie
+            UPDATE user
             SET 
                 firstname = :firstname,
                 lastname  = :lastname,
-                firstparent_id = :firstparent_id,
-                secondparent_id = :secondparent_id
+                city = :city,
+                phonenumber = :phonenumber
             WHERE id = :id;
         ";
 
@@ -84,8 +89,8 @@ class MovieGateway {
                 'id' => (int) $id,
                 'firstname' => $input['firstname'],
                 'lastname'  => $input['lastname'],
-                'firstparent_id' => $input['firstparent_id'] ?? null,
-                'secondparent_id' => $input['secondparent_id'] ?? null,
+                'city' => $input['city'] ?? null,
+                'phonenumber' => $input['phonenumber'] ?? null,
             ));
             return $statement->rowCount();
         } catch (\PDOException $e) {
@@ -96,7 +101,7 @@ class MovieGateway {
     public function delete($id)
     {
         $statement = "
-            DELETE FROM movie
+            DELETE FROM user
             WHERE id = :id;
         ";
 

@@ -1,7 +1,7 @@
 <?php
 namespace src\Controller;
 
-use src\TableGateways\MovieGateway;
+// use src\TableGateways\MovieGateway;
 use src\TableGateways\ImbdGateway;
 
 class MovieController {
@@ -23,7 +23,7 @@ class MovieController {
         $this->requestRoute = $requestRoute;
         $this->params = $params;
         $this->apikey = "046720553f711abd5a48ddf1b60db681";
-        $this->movieGateway = new MovieGateway($db);
+        // $this->movieGateway = new MovieGateway($db);
         // $this->imbGateaway = new ImbdGateway($db);
     }
 
@@ -31,83 +31,70 @@ class MovieController {
     // The database routes
     private function moviesRoute()
     {
-        switch ($this->requestMethod) {
-            case 'GET':
-                if ($this->userId) {
-                    // $response = $this->getUser($this->userId);
-                    $response = "api works";
-                } else {
-                    // $response = $this->getAllUsers();
-                    $response = "api works";
-                };
-                break;
-            case 'POST':
-                $response = $this->createUserFromRequest();
-                break;
-            case 'PUT':
-                $response = $this->updateUserFromRequest($this->userId);
-                break;
-            case 'DELETE':
-                $response = $this->deleteUser($this->userId);
-                break;
-            default:
-                $response = $this->notFoundResponse();
-                break;
-        }
-         // header($response['status_code_header']);
-         if ($response) {
-            echo $response;
-        }
+        // switch ($this->requestMethod) {
+        //     case 'GET':
+        //         if ($this->userId) {
+        //             $response = $this->getUser($this->userId);
+        //         } else {
+        //             $response = $this->getAllUsers();
+        //         };
+        //         break;
+        //     case 'POST':
+        //         $response = $this->createUserFromRequest();
+        //         break;
+        //     case 'PUT':
+        //         $response = $this->updateUserFromRequest($this->userId);
+        //         break;
+        //     case 'DELETE':
+        //         $response = $this->deleteUser($this->userId);
+        //         break;
+        //     default:
+        //         $response = $this->notFoundResponse();
+        //         break;
+        // }
+        //  if ($response) {
+        //     echo $response;
+        // }
+        echo 'empty';
     }
     
 
     // Routes for the movie API
     private function apiRoutes(){
-        switch ($this->requestMethod) {
-            case 'GET':
-                if ($this->userId) {
-                    $get_data = $this->callAPI('GET', "https://api.themoviedb.org/3/movie/popular?api_key=" .$this->apikey. "&language=en-US&page=1", false);
-                    $response = json_decode($get_data, true);
-                    $errors = $response['response']['errors'];
-                    $data = $response['response']['data'][0];
-                    echo 'tested';
-                    echo json_encode($data);
-
-                } else {
-                    // $response = $this->getAllUsers();
-                    $get_data = $this->callAPI('GET', "https://api.themoviedb.org/3/movie/popular?api_key=" .$this->apikey. "&language=en-US&page=1", false);
+                if (isset($this->params['search'])) {
+                    print_r($this->userId);
+                    $get_data = $this->callAPI('GET', "https://api.themoviedb.org/3/search/movie?api_key=" .$this->apikey. "&query=" .$this->params['search']. "&page=1", false);
                     $response = json_decode($get_data, true);
                     $errors = $response;
                     $data = $response;
                     echo json_encode($data);
-                    // $response = "get data from the api";
+                } else if ($this->userId) {
+                    // get movies details
+                    print_r($this->userId);
+                    $get_data = $this->callAPI('GET', "https://api.themoviedb.org/3/movie/" .$this->userId.  "?api_key=" .$this->apikey. "&language=en-US", false);
+                    $response = json_decode($get_data, true);
+                    $errors = $response;
+                    $data = $response;
+                    echo json_encode($data);
+
+                } else {
+                    // get movies list
+                    $page = null;
+                    if (isset($this->params['page'])) {
+                        $page = $this->params['page'];
+                    }else{
+                        $page = 1;
+                    }
+                    print_r($this->userId);
+                    $get_data = $this->callAPI('GET', "https://api.themoviedb.org/3/movie/popular?api_key=" .$this->apikey. "&language=en-US&page=" .$page , false);
+                    $response = json_decode($get_data, true);
+                    $errors = $response;
+                    $data = $response;
+                    echo json_encode($data);
                 };
-                break;
-            case 'POST':
-                $response = $this->createUserFromRequest();
-                break;
-            case 'PUT':
-                $response = $this->updateUserFromRequest($this->userId);
-                break;
-            case 'DELETE':
-                $response = $this->deleteUser($this->userId);
-                break;
-            default:
-                $response = $this->notFoundResponse();
-                break;
-        }
-    
-         header($response['status_code_header']);
-         if ($response) {
-            echo `https://api.themoviedb.org/3/movie/popular?api_key=`.$this->apikey."&language=en-US&page=1";
-            echo 'efsfefs';
-            echo json_encode($data);
+          
 
-        }else {
-            echo `https://api.themoviedb.org/3/movie/popular?api_key=`.$this->apikey."&language=en-US&page=1";
-
-            echo json_encode($errors);
-        }
+  
     }
 
     public function processRequest()
