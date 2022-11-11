@@ -15,15 +15,14 @@ class MovieController {
     private $movieGateway;
     private $imbGateaway;
 
-    public function __construct($db, $requestMethod, $userId, $requestRoute)
+    public function __construct($db, $requestMethod, $userId, $requestRoute, $params)
     {
         $this->db = $db;
         $this->requestMethod = $requestMethod;
         $this->userId = $userId;
         $this->requestRoute = $requestRoute;
+        $this->params = $params;
         $this->apikey = "046720553f711abd5a48ddf1b60db681";
-
-
         $this->movieGateway = new MovieGateway($db);
         // $this->imbGateaway = new ImbdGateway($db);
     }
@@ -64,8 +63,7 @@ class MovieController {
 
     // Routes for the movie API
     private function apiRoutes(){
-        switch ($this->requestMethod) {
-            case 'GET':
+        if ($this->requestMethod) {
                 if ($this->userId) {
                     // $response = $this->getUser($this->userId);
                     // $response = "get from the api";
@@ -85,19 +83,7 @@ class MovieController {
                     echo json_encode($data);
                     // $response = "get data from the api";
                 };
-                break;
-            case 'POST':
-                $response = $this->createUserFromRequest();
-                break;
-            case 'PUT':
-                $response = $this->updateUserFromRequest($this->userId);
-                break;
-            case 'DELETE':
-                $response = $this->deleteUser($this->userId);
-                break;
-            default:
-                $response = $this->notFoundResponse();
-                break;
+           
         }
     
          header($response['status_code_header']);

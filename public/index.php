@@ -12,6 +12,21 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $uri = explode( '/', $uri );
 
+// Use parse_url() function to parse the URL
+// and return an associative array which
+// contains its various components
+$url_components = parse_url($_SERVER['REQUEST_URI']);
+ 
+// Use parse_str() function to parse the
+// string passed via URL
+parse_str($url_components['query'], $params);
+     
+// Display result
+echo ' Hi '.$params['page'];
+print_r($params);
+
+
+
 // all of our endpoints start with /movie
 // everything else results in a 404 Not Found
 if ($uri[1] !== 'movie' && $uri[1] !== 'api') {
@@ -27,23 +42,6 @@ if (isset($uri[2])) {
 
 $requestMethod = $_SERVER["REQUEST_METHOD"];
 
-$controller;
-// pass the request method and user ID to the PersonController and process the HTTP request:
-// switch ($uri[1]) {
-//     case 'movie':
-//         $controller = new MovieController($dbConnection, $requestMethod, $userId);
-//         break;
-//     case 'api':
-//         $controller = new ImbdController($dbConnection, $requestMethod, $userId);
-//         break;
-    
-//     default:
-//         # code...
-//         break;
-// }
-$controller = new MovieController($dbConnection, $requestMethod, $userId, $uri[1]);
-$controller->processRequest('movie');
 
-// $apiController = new ImbdController($dbConnection, $requestMethod, $userId);
-// // $apicontroller->processRequest('/api');
-// $apiController->processRequest('api');
+$controller = new MovieController($dbConnection, $requestMethod, $userId, $uri[1], $params);
+$controller->processRequest('movie');
